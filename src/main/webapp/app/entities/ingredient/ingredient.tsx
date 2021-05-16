@@ -32,7 +32,7 @@ export const Ingredient = (props: IIngredientProps) => {
           </Button>
           <Link to={`${match.url}/new`} className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
-            &nbsp; Create new Ingredient
+            &nbsp; Add a new ingredient
           </Link>
         </div>
       </h2>

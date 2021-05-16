@@ -88,11 +88,12 @@ export const Recipe = (props: IRecipeProps) => {
           </Button>
           <Link to={`${match.url}/new`} className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
-            &nbsp; Create new Recipe
+            &nbsp; Add a new recipe
           </Link>
         </div>
       </h2>
-      <div className="table-responsive">
+
+      <div>
         <InfiniteScroll
           pageStart={paginationState.activePage}
           loadMore={handleLoadMore}
@@ -106,12 +107,14 @@ export const Recipe = (props: IRecipeProps) => {
               {recipeList.map((recipe, i) => (
                 <a key={`entity-${i}`} style={{ cursor: 'pointer' }} href={`${match.url}/${recipe.id}`}>
                   <Card>
-                    <CardImg
-                      top
-                      width="100%"
-                      src={`data:${recipe.pictureContentType};base64,${recipe.picture}`}
-                      style={{ maxHeight: '300px' }}
-                    />
+                    {!recipe.picture ? null : (
+                      <CardImg
+                        top
+                        width="100%"
+                        src={`data:${recipe.pictureContentType};base64,${recipe.picture}`}
+                        style={{ maxHeight: '300px' }}
+                      />
+                    )}
                     <CardBody>
                       <CardTitle tag="h5">{recipe.name}</CardTitle>
                       <CardSubtitle tag="h6" className="mb-2 text-muted">

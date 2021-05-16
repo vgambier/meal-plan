@@ -32,7 +32,7 @@ export const MealPlan = (props: IMealPlanProps) => {
           </Button>
           <Link to={`${match.url}/new`} className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
-            &nbsp; Create new Meal Plan
+            &nbsp; Add a new meal plan
           </Link>
         </div>
       </h2>
