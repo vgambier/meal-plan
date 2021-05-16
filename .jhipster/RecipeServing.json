@@ -1,0 +1,35 @@
+{
+  "name": "RecipeServing",
+  "fields": [
+    {
+      "fieldName": "servingsOverride",
+      "fieldType": "Float"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "recipe",
+      "otherEntityRelationshipName": "recipeServing",
+      "relationshipValidateRules": "required",
+      "relationshipName": "recipe",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "mealPlan",
+      "otherEntityRelationshipName": "recipes",
+      "relationshipName": "mealPlan"
+    }
+  ],
+  "entityTableName": "recipe_serving",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210516103813"
+}

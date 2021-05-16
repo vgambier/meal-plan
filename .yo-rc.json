@@ -41,6 +41,8 @@
     "packageFolder": "com/vgambier/mealplan",
     "rememberMeKey": "7622ad1f85baad2526ee68561822dade48becec434ccf02d834241bf5c784e40db00474978409a067ac37d0ef8032166bdc1",
     "clientPackageManager": "npm",
-    "languages": ["en", "fr"]
+    "languages": ["en", "fr"],
+    "entities": ["Ingredient", "Recipe", "RecipeIngredient", "MealPlan", "RecipeServing"],
+    "lastLiquibaseTimestamp": 1621161493000
   }
 }

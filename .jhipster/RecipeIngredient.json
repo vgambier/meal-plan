@@ -1,0 +1,44 @@
+{
+  "name": "RecipeIngredient",
+  "fields": [
+    {
+      "fieldName": "quantity",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "unit",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "optional",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "ingredient",
+      "otherEntityRelationshipName": "recipeIngredient",
+      "relationshipValidateRules": "required",
+      "relationshipName": "ingredient",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "recipe",
+      "otherEntityRelationshipName": "ingredients",
+      "relationshipName": "recipe"
+    }
+  ],
+  "entityTableName": "recipe_ingredient",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210516103811"
+}

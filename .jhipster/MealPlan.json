@@ -1,0 +1,29 @@
+{
+  "name": "MealPlan",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "recipeServing",
+      "otherEntityRelationshipName": "mealPlan",
+      "relationshipValidateRules": "required",
+      "relationshipName": "recipes"
+    }
+  ],
+  "entityTableName": "meal_plan",
+  "dto": "mapstruct",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210516103812"
+}

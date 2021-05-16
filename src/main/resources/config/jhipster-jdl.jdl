@@ -1,0 +1,62 @@
+enum Season {
+	WINTER,
+    SUMMER,
+    YEAR_ROUND
+}
+
+entity Ingredient {
+	name String required,
+    substitutes String
+}
+
+entity Recipe {
+	name String required,
+    servings Float required,
+    instructions TextBlob required,
+    additionalNotes TextBlob,
+    picture ImageBlob,
+    source String,
+    season Season,
+}
+
+entity RecipeIngredient {
+    quantity Float,
+    unit String,
+    optional Boolean required
+}
+
+entity MealPlan {
+	name String required
+}
+
+entity RecipeServing {
+	servingsOverride Float
+}
+
+relationship OneToMany {
+	MealPlan{recipes required} to RecipeServing
+}
+
+relationship OneToOne {
+	RecipeServing{recipe required} to Recipe
+}
+
+relationship OneToMany {
+	Recipe{ingredients required} to RecipeIngredient
+}
+
+relationship OneToOne {
+	RecipeIngredient{ingredient required} to Ingredient
+}
+
+// Set pagination options
+paginate Recipe with infinite-scroll
+
+// Use Data Transfer Objects (DTO)
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl
+
+// Set an angular suffix
+// angularSuffix * with mySuffix
