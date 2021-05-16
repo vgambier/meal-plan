@@ -75,6 +75,10 @@ export const RecipeDetail = (props: IRecipeDetailProps) => {
         <Button tag={Link} to={`/recipe/${recipeEntity.id}/edit`} replace color="primary">
           <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
         </Button>
+        &nbsp;
+        <Button tag={Link} to={`/recipe/${recipeEntity.id}/delete`} color="danger" data-cy="entityDeleteButton">
+          <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
+        </Button>
       </Col>
     </Row>
   );

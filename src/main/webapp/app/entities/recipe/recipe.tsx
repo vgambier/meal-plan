@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
-import { openFile, byteSize, Translate, getSortState, IPaginationBaseState } from 'react-jhipster';
+import { Button, Card, CardTitle, CardSubtitle, CardBody, CardImg, CardDeck } from 'reactstrap';
+import { getSortState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
 import { getEntities, reset } from './recipe.reducer';
-import { IRecipe } from 'app/shared/model/recipe.model';
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 
@@ -104,82 +102,26 @@ export const Recipe = (props: IRecipeProps) => {
           initialLoad={false}
         >
           {recipeList && recipeList.length > 0 ? (
-            <Table responsive>
-              <thead>
-                <tr>
-                  <th className="hand" onClick={sort('id')}>
-                    ID <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('name')}>
-                    Name <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('servings')}>
-                    Servings <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('instructions')}>
-                    Instructions <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('additionalNotes')}>
-                    Additional Notes <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('picture')}>
-                    Picture <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('source')}>
-                    Source <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th className="hand" onClick={sort('season')}>
-                    Season <FontAwesomeIcon icon="sort" />
-                  </th>
-                  <th />
-                </tr>
-              </thead>
-              <tbody>
-                {recipeList.map((recipe, i) => (
-                  <tr key={`entity-${i}`} data-cy="entityTable">
-                    <td>
-                      <Button tag={Link} to={`${match.url}/${recipe.id}`} color="link" size="sm">
-                        {recipe.id}
-                      </Button>
-                    </td>
-                    <td>{recipe.name}</td>
-                    <td>{recipe.servings}</td>
-                    <td>{recipe.instructions}</td>
-                    <td>{recipe.additionalNotes}</td>
-                    <td>
-                      {recipe.picture ? (
-                        <div>
-                          {recipe.pictureContentType ? (
-                            <a onClick={openFile(recipe.pictureContentType, recipe.picture)}>
-                              <img src={`data:${recipe.pictureContentType};base64,${recipe.picture}`} style={{ maxHeight: '30px' }} />
-                              &nbsp;
-                            </a>
-                          ) : null}
-                          <span>
-                            {recipe.pictureContentType}, {byteSize(recipe.picture)}
-                          </span>
-                        </div>
-                      ) : null}
-                    </td>
-                    <td>{recipe.source}</td>
-                    <td>{recipe.season}</td>
-                    <td className="text-right">
-                      <div className="btn-group flex-btn-group-container">
-                        <Button tag={Link} to={`${match.url}/${recipe.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                          <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">View</span>
-                        </Button>
-                        <Button tag={Link} to={`${match.url}/${recipe.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
-                          <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
-                        </Button>
-                        <Button tag={Link} to={`${match.url}/${recipe.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
-                          <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+            <CardDeck>
+              {recipeList.map((recipe, i) => (
+                <a key={`entity-${i}`} style={{ cursor: 'pointer' }} href={`${match.url}/${recipe.id}`}>
+                  <Card>
+                    <CardImg
+                      top
+                      width="100%"
+                      src={`data:${recipe.pictureContentType};base64,${recipe.picture}`}
+                      style={{ maxHeight: '300px' }}
+                    />
+                    <CardBody>
+                      <CardTitle tag="h5">{recipe.name}</CardTitle>
+                      <CardSubtitle tag="h6" className="mb-2 text-muted">
+                        {recipe.season}
+                      </CardSubtitle>
+                    </CardBody>
+                  </Card>
+                </a>
+              ))}
+            </CardDeck>
           ) : (
             !loading && <div className="alert alert-warning">No Recipes found</div>
           )}
