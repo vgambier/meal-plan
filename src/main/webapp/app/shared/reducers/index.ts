@@ -21,17 +21,9 @@ import recipe, {
   RecipeState
 } from 'app/entities/recipe/recipe.reducer';
 // prettier-ignore
-import recipeIngredient, {
-  RecipeIngredientState
-} from 'app/entities/recipe-ingredient/recipe-ingredient.reducer';
-// prettier-ignore
 import mealPlan, {
   MealPlanState
 } from 'app/entities/meal-plan/meal-plan.reducer';
-// prettier-ignore
-import recipeServing, {
-  RecipeServingState
-} from 'app/entities/recipe-serving/recipe-serving.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
@@ -47,9 +39,7 @@ export interface IRootState {
   readonly sessions: SessionsState;
   readonly ingredient: IngredientState;
   readonly recipe: RecipeState;
-  readonly recipeIngredient: RecipeIngredientState;
   readonly mealPlan: MealPlanState;
-  readonly recipeServing: RecipeServingState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
 }
@@ -67,9 +57,7 @@ const rootReducer = combineReducers<IRootState>({
   sessions,
   ingredient,
   recipe,
-  recipeIngredient,
   mealPlan,
-  recipeServing,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,
 });
