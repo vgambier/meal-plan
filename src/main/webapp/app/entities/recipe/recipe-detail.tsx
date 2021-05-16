@@ -19,46 +19,52 @@ export const RecipeDetail = (props: IRecipeDetailProps) => {
   const { recipeEntity } = props;
   return (
     <Row>
+      {recipeEntity.picture ? (
+        <div>
+          {recipeEntity.pictureContentType ? (
+            <a onClick={openFile(recipeEntity.pictureContentType, recipeEntity.picture)}>
+              <img src={`data:${recipeEntity.pictureContentType};base64,${recipeEntity.picture}`} style={{ maxWidth: '400px' }} />
+            </a>
+          ) : null}
+        </div>
+      ) : null}
+
       <Col md="8">
-        <h2 data-cy="recipeDetailsHeading">Recipe</h2>
+        <h2 data-cy="recipeDetailsHeading">{recipeEntity.name}</h2>
         <dl className="jh-entity-details">
+          <dd>
+            <span id="servings">
+              <b>Servings:</b> {recipeEntity.servings}
+            </span>
+          </dd>
+
           <dt>
-            <span id="id">ID</span>
+            <span id="ingredients">Ingredients</span>
           </dt>
-          <dd>{recipeEntity.id}</dd>
-          <dt>
-            <span id="name">Name</span>
-          </dt>
-          <dd>{recipeEntity.name}</dd>
-          <dt>
-            <span id="servings">Servings</span>
-          </dt>
-          <dd>{recipeEntity.servings}</dd>
+          <dd>
+            {!recipeEntity.ingredients
+              ? 'None'
+              : recipeEntity.ingredients.map(item => item.ingredient.name + '(' + item.quantity + item.unit + ')')}
+          </dd>
+
           <dt>
             <span id="instructions">Instructions</span>
           </dt>
-          <dd>{recipeEntity.instructions}</dd>
-          <dt>
-            <span id="additionalNotes">Additional Notes</span>
-          </dt>
-          <dd>{recipeEntity.additionalNotes}</dd>
-          <dt>
-            <span id="picture">Picture</span>
-          </dt>
           <dd>
-            {recipeEntity.picture ? (
-              <div>
-                {recipeEntity.pictureContentType ? (
-                  <a onClick={openFile(recipeEntity.pictureContentType, recipeEntity.picture)}>
-                    <img src={`data:${recipeEntity.pictureContentType};base64,${recipeEntity.picture}`} style={{ maxHeight: '30px' }} />
-                  </a>
-                ) : null}
-                <span>
-                  {recipeEntity.pictureContentType}, {byteSize(recipeEntity.picture)}
-                </span>
-              </div>
-            ) : null}
+            <div style={{ whiteSpace: 'pre-line' }}>{recipeEntity.instructions}</div>
           </dd>
+
+          {recipeEntity.additionalNotes ? (
+            <div>
+              <dt>
+                <span id="additionalNotes">Additional Notes</span>
+              </dt>
+              <dd>
+                <div style={{ whiteSpace: 'pre-line' }}>{recipeEntity.additionalNotes}</div>
+              </dd>
+            </div>
+          ) : null}
+
           <dt>
             <span id="source">Source</span>
           </dt>
