@@ -57,7 +57,7 @@ export const IngredientUpdate = (props: IIngredientUpdateProps) => {
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="mealPlanApp.ingredient.home.createOrEditLabel" data-cy="IngredientCreateUpdateHeading">
-            Create or edit a Ingredient
+            Create or edit an ingredient
           </h2>
         </Col>
       </Row>

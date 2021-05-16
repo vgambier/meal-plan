@@ -65,7 +65,7 @@ export const RecipeUpdate = (props: IRecipeUpdateProps) => {
       <Row className="justify-content-center">
         <Col md="8">
           <h2 id="mealPlanApp.recipe.home.createOrEditLabel" data-cy="RecipeCreateUpdateHeading">
-            Create or edit a Recipe
+            Create or edit a recipe
           </h2>
         </Col>
       </Row>

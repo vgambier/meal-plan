@@ -46,7 +46,7 @@ export const UserManagementUpdate = (props: IUserManagementUpdateProps) => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h1>Create or edit a User</h1>
+          <h1>Create or edit a user</h1>
         </Col>
       </Row>
       <Row className="justify-content-center">
