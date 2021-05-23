@@ -55,7 +55,6 @@ export const MealPlanUpdate = (props: IMealPlanUpdateProps) => {
         const recipeServingEntity = {
           recipe: recipes.find(it => it.id.toString() === formRecipe.recipeId.toString()),
           servingsOverride: formRecipe.servingsOverride,
-          mealPlan: entity,
         };
 
         props.createRecipeServingEntity(recipeServingEntity);
@@ -63,10 +62,18 @@ export const MealPlanUpdate = (props: IMealPlanUpdateProps) => {
     }
   };
 
+  const findServingsByRecipeId = recipeId => {
+    return recipes.find(rec => rec.id === parseInt(recipeId, 10))?.servings;
+  };
+
   const handleRecipeIdChange = idx => evt => {
     const newMealPlanRecipes = mealPlanRecipes.map((recipe, sidx) => {
       if (idx !== sidx) return recipe;
-      return { ...recipe, recipeId: evt.target.value };
+      return {
+        ...recipe,
+        recipeId: evt.target.value,
+        servingsOverride: findServingsByRecipeId(evt.target.value),
+      };
     });
 
     setMealPlanRecipes(newMealPlanRecipes);
@@ -160,8 +167,8 @@ export const MealPlanUpdate = (props: IMealPlanUpdateProps) => {
                             type="number"
                             placeholder="Servings"
                             className="form-control"
-                            value={recipes.find(recipe => recipe.id === parseInt(mealPlanRecipes[idx]?.recipeId, 10))?.servings}
-                            name={'servingsOverride' + (idx + 1)} // TODO for above: make sure it's actually saved in the recipeserving entity
+                            value={findServingsByRecipeId(mealPlanRecipes[idx]?.recipeId)}
+                            name={'servingsOverride' + (idx + 1)}
                             onChange={handleRecipeServingsChange(idx)}
                           />
                         </AvGroup>
