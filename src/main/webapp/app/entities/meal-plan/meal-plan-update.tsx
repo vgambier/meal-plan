@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Row, Col, Label } from 'reactstrap';
+import { Button, Row, Col, Label, Container } from 'reactstrap';
 import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
@@ -38,7 +38,7 @@ export const MealPlanUpdate = (props: IMealPlanUpdateProps) => {
     }
   }, [props.updateSuccess]);
 
-  const saveEntity = (event, errors, values) => {
+  const saveEntity = (_event, errors, values) => {
     if (errors.length === 0) {
       const entity = {
         ...mealPlanEntity,
@@ -86,7 +86,7 @@ export const MealPlanUpdate = (props: IMealPlanUpdateProps) => {
   };
 
   const handleRemoveRecipe = idx => () => {
-    setMealPlanRecipes(mealPlanRecipes.filter((s, sidx) => idx !== sidx));
+    setMealPlanRecipes(mealPlanRecipes.filter((_s, sidx) => idx !== sidx));
   };
 
   return (
@@ -125,53 +125,65 @@ export const MealPlanUpdate = (props: IMealPlanUpdateProps) => {
                 />
               </AvGroup>
               <Label for="meal-plan-recipes">Recipes</Label>
-              {mealPlanRecipes.map((mealPlanRecipe, idx) => (
+              <br />
+              {mealPlanRecipes.map((_mealPlanRecipe, idx) => (
                 <div key={idx} className="mealPlanRecipe">
-                  <AvGroup>
-                    <Label for="recipe-serving-recipe">Recipe {idx + 1}</Label>
-                    <AvInput
-                      form="fakeform"
-                      id="recipe-serving-recipe"
-                      data-cy="recipe"
-                      type="select"
-                      className="form-control"
-                      name={'recipeId' + (idx + 1)}
-                      required
-                      onChange={handleRecipeIdChange(idx)}
-                    >
-                      <option value="" key="0" />
-                      {recipes
-                        ? recipes.map(otherEntity => (
-                            <option value={otherEntity.id} key={otherEntity.id}>
-                              {otherEntity.name}
-                            </option>
-                          ))
-                        : null}
-                    </AvInput>
-                    <AvFeedback>This field is required.</AvFeedback>
-                  </AvGroup>
-                  <AvGroup>
-                    <Label id="servingsOverrideLabel" for="recipe-serving-servingsOverride">
-                      Servings Override
-                    </Label>
-                    <AvField
-                      id="recipe-serving-servingsOverride"
-                      data-cy="servingsOverride"
-                      type="string"
-                      className="form-control"
-                      name={'servingsOverride' + (idx + 1)}
-                      onChange={handleRecipeServingsChange(idx)}
-                    />
-                  </AvGroup>
-
-                  <button type="button" onClick={handleRemoveRecipe(idx)} className="small">
-                    -
-                  </button>
+                  <Container>
+                    <Row>
+                      <AvGroup>
+                        <AvInput
+                          form="fakeform"
+                          id="recipe-serving-recipe"
+                          data-cy="recipe"
+                          type="select"
+                          className="form-control"
+                          name={'recipeId' + (idx + 1)}
+                          required // TODO make it not required but make sure it is ignored if empty
+                          onChange={handleRecipeIdChange(idx)}
+                        >
+                          <option value="" key="0" />
+                          {recipes
+                            ? recipes.map(otherEntity => (
+                                <option value={otherEntity.id} key={otherEntity.id}>
+                                  {otherEntity.name}
+                                </option> // TODO hide recipes already present in other forms
+                              ))
+                            : null}
+                        </AvInput>
+                        <AvFeedback>This field is required.</AvFeedback>
+                      </AvGroup>
+                      <Col sm="2">
+                        <AvGroup>
+                          <AvField
+                            id="recipe-serving-servingsOverride"
+                            data-cy="servingsOverride"
+                            type="number"
+                            placeholder="Servings"
+                            className="form-control"
+                            value={recipes.find(recipe => recipe.id === parseInt(mealPlanRecipes[idx]?.recipeId, 10))?.servings}
+                            name={'servingsOverride' + (idx + 1)}
+                            onChange={handleRecipeServingsChange(idx)}
+                          />
+                        </AvGroup>
+                      </Col>
+                      <Col sm="1">
+                        <Button
+                          type="button"
+                          onClick={
+                            handleRemoveRecipe(idx) // TODO this always deletes the last one
+                          }
+                        >
+                          -
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Container>
                 </div>
               ))}
-              <button type="button" onClick={handleAddRecipe} className="small">
+              <Button type="button" onClick={handleAddRecipe} className="small">
                 Add recipe
-              </button>
+              </Button>
+              <br /> <br />
               <Button tag={Link} id="cancel-save" to="/meal-plan" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
