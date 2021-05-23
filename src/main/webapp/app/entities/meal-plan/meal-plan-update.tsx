@@ -161,7 +161,7 @@ export const MealPlanUpdate = (props: IMealPlanUpdateProps) => {
                             placeholder="Servings"
                             className="form-control"
                             value={recipes.find(recipe => recipe.id === parseInt(mealPlanRecipes[idx]?.recipeId, 10))?.servings}
-                            name={'servingsOverride' + (idx + 1)}
+                            name={'servingsOverride' + (idx + 1)} // TODO for above: make sure it's actually saved in the recipeserving entity
                             onChange={handleRecipeServingsChange(idx)}
                           />
                         </AvGroup>

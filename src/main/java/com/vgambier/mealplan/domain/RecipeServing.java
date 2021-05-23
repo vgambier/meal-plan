@@ -28,7 +28,7 @@ public class RecipeServing implements Serializable {
     @JoinColumn(unique = true)
     private Recipe recipe;
 
-    @ManyToOne
+    @ManyToOne(cascade = { CascadeType.ALL })
     @JsonIgnoreProperties(value = { "recipes" }, allowSetters = true)
     private MealPlan mealPlan;
 

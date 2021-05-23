@@ -25,7 +25,7 @@ public class MealPlan implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "mealPlan")
+    @OneToMany(mappedBy = "mealPlan", cascade = { CascadeType.ALL })
     @JsonIgnoreProperties(value = { "recipe", "mealPlan" }, allowSetters = true)
     private Set<RecipeServing> recipes = new HashSet<>();
 
