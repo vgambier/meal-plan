@@ -6,19 +6,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
 import { getEntity } from './meal-plan.reducer';
-import { getEntities as getRecipeServingEntities } from 'app/entities/recipe-serving/recipe-serving.reducer';
-import { getEntities as getRecipeEntities } from 'app/entities/recipe/recipe.reducer';
 
 export interface IMealPlanDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const MealPlanDetail = (props: IMealPlanDetailProps) => {
   useEffect(() => {
     props.getEntity(props.match.params.id);
-    props.getRecipeServingEntities();
-    props.getRecipeEntities();
   }, []);
 
-  const { mealPlanEntity, recipeServings, recipes } = props;
+  const { mealPlanEntity } = props;
 
   return (
     <Row>
@@ -28,13 +24,8 @@ export const MealPlanDetail = (props: IMealPlanDetailProps) => {
           <dt>
             <span id="recipes">Recipes</span>
           </dt>
-          <dd>
-            {recipes.length > 0 &&
-              recipeServings
-                .filter(recipe => recipe.mealPlan.id === mealPlanEntity.id)
-                .map(recipe => recipe.recipe.id)
-                .map(id => <dd key={id}>{recipes.find(recipe => recipe.id === id).name}</dd>)}
-          </dd>
+          {mealPlanEntity?.recipes?.length > 0 &&
+            mealPlanEntity?.recipes?.map(recipe => <dd key={recipe.recipe.id}>{recipe.recipe.name}</dd>)}
         </dl>
         <Button tag={Link} to="/meal-plan" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>
@@ -48,16 +39,12 @@ export const MealPlanDetail = (props: IMealPlanDetailProps) => {
   );
 };
 
-const mapStateToProps = (storeState: IRootState) => ({
-  mealPlanEntity: storeState.mealPlan.entity,
-  recipeServings: storeState.recipeServing.entities,
-  recipes: storeState.recipe.entities,
+const mapStateToProps = ({ mealPlan }: IRootState) => ({
+  mealPlanEntity: mealPlan.entity,
 });
 
 const mapDispatchToProps = {
   getEntity,
-  getRecipeServingEntities,
-  getRecipeEntities,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

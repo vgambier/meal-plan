@@ -1,7 +1,9 @@
 package com.vgambier.mealplan.service.dto;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import javax.validation.constraints.*;
 
 /**
@@ -13,6 +15,8 @@ public class MealPlanDTO implements Serializable {
 
     @NotNull
     private String name;
+
+    private Set<RecipeServingDTO> recipes = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -28,6 +32,14 @@ public class MealPlanDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<RecipeServingDTO> getRecipes() {
+        return recipes;
+    }
+
+    public void setRecipes(Set<RecipeServingDTO> recipes) {
+        this.recipes = recipes;
     }
 
     @Override
@@ -57,6 +69,7 @@ public class MealPlanDTO implements Serializable {
         return "MealPlanDTO{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
+            ", recipes='" + getRecipes() + "'" +
             "}";
     }
 }

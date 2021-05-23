@@ -25,7 +25,8 @@ public class MealPlan implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "mealPlan", cascade = { CascadeType.ALL })
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "meal_plan_id")
     @JsonIgnoreProperties(value = { "recipe", "mealPlan" }, allowSetters = true)
     private Set<RecipeServing> recipes = new HashSet<>();
 
@@ -67,23 +68,15 @@ public class MealPlan implements Serializable {
 
     public MealPlan addRecipes(RecipeServing recipeServing) {
         this.recipes.add(recipeServing);
-        recipeServing.setMealPlan(this);
         return this;
     }
 
     public MealPlan removeRecipes(RecipeServing recipeServing) {
         this.recipes.remove(recipeServing);
-        recipeServing.setMealPlan(null);
         return this;
     }
 
     public void setRecipes(Set<RecipeServing> recipeServings) {
-        if (this.recipes != null) {
-            this.recipes.forEach(i -> i.setMealPlan(null));
-        }
-        if (recipeServings != null) {
-            recipeServings.forEach(i -> i.setMealPlan(this));
-        }
         this.recipes = recipeServings;
     }
 

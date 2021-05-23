@@ -15,8 +15,6 @@ public class RecipeServingDTO implements Serializable {
 
     private RecipeDTO recipe;
 
-    private MealPlanDTO mealPlan;
-
     public Long getId() {
         return id;
     }
@@ -39,14 +37,6 @@ public class RecipeServingDTO implements Serializable {
 
     public void setRecipe(RecipeDTO recipe) {
         this.recipe = recipe;
-    }
-
-    public MealPlanDTO getMealPlan() {
-        return mealPlan;
-    }
-
-    public void setMealPlan(MealPlanDTO mealPlan) {
-        this.mealPlan = mealPlan;
     }
 
     @Override
@@ -77,7 +67,6 @@ public class RecipeServingDTO implements Serializable {
             "id=" + getId() +
             ", servingsOverride=" + getServingsOverride() +
             ", recipe=" + getRecipe() +
-            ", mealPlan=" + getMealPlan() +
             "}";
     }
 }

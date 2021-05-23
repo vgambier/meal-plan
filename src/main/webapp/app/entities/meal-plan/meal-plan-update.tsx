@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
 import { getEntity, updateEntity, createEntity, reset } from './meal-plan.reducer';
-import { createEntity as createRecipeServingEntity } from 'app/entities/recipe-serving/recipe-serving.reducer';
 import { getEntities as getRecipes } from 'app/entities/recipe/recipe.reducer';
 
 export interface IMealPlanUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
@@ -40,9 +39,17 @@ export const MealPlanUpdate = (props: IMealPlanUpdateProps) => {
 
   const saveEntity = (_event, errors, values) => {
     if (errors.length === 0) {
+      const recipeServingEntities = mealPlanRecipes.map(formRecipe => {
+        return {
+          recipe: recipes.find(it => it.id.toString() === formRecipe.recipeId.toString()),
+          servingsOverride: formRecipe.servingsOverride,
+        };
+      });
+
       const entity = {
         ...mealPlanEntity,
         ...values,
+        recipes: recipeServingEntities,
       };
 
       if (isNew) {
@@ -50,15 +57,6 @@ export const MealPlanUpdate = (props: IMealPlanUpdateProps) => {
       } else {
         props.updateEntity(entity);
       }
-
-      mealPlanRecipes.map(formRecipe => {
-        const recipeServingEntity = {
-          recipe: recipes.find(it => it.id.toString() === formRecipe.recipeId.toString()),
-          servingsOverride: formRecipe.servingsOverride,
-        };
-
-        props.createRecipeServingEntity(recipeServingEntity);
-      });
     }
   };
 
@@ -222,7 +220,6 @@ const mapDispatchToProps = {
   getRecipes,
   updateEntity,
   createEntity,
-  createRecipeServingEntity,
   reset,
 };
 

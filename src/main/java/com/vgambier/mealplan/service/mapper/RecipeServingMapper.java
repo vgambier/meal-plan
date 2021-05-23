@@ -10,6 +10,5 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = { RecipeMapper.class, MealPlanMapper.class })
 public interface RecipeServingMapper extends EntityMapper<RecipeServingDTO, RecipeServing> {
     @Mapping(target = "recipe", source = "recipe", qualifiedByName = "id")
-    @Mapping(target = "mealPlan", source = "mealPlan", qualifiedByName = "id")
     RecipeServingDTO toDto(RecipeServing s);
 }
