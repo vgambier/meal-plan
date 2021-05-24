@@ -29,14 +29,14 @@ public class RecipeIngredient implements Serializable {
     @Column(name = "optional", nullable = false)
     private Boolean optional;
 
-    @OneToOne(optional = false)
-    @NotNull
-    @JoinColumn(unique = true)
-    private Ingredient ingredient;
-
     @ManyToOne
-    @JsonIgnoreProperties(value = { "ingredients" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "recipeServings", "ingredients" }, allowSetters = true)
     private Recipe recipe;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties(value = { "recipeIngredients" }, allowSetters = true)
+    private Ingredient ingredient;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -91,19 +91,6 @@ public class RecipeIngredient implements Serializable {
         this.optional = optional;
     }
 
-    public Ingredient getIngredient() {
-        return this.ingredient;
-    }
-
-    public RecipeIngredient ingredient(Ingredient ingredient) {
-        this.setIngredient(ingredient);
-        return this;
-    }
-
-    public void setIngredient(Ingredient ingredient) {
-        this.ingredient = ingredient;
-    }
-
     public Recipe getRecipe() {
         return this.recipe;
     }
@@ -115,6 +102,19 @@ public class RecipeIngredient implements Serializable {
 
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
+    }
+
+    public Ingredient getIngredient() {
+        return this.ingredient;
+    }
+
+    public RecipeIngredient ingredient(Ingredient ingredient) {
+        this.setIngredient(ingredient);
+        return this;
+    }
+
+    public void setIngredient(Ingredient ingredient) {
+        this.ingredient = ingredient;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

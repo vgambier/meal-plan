@@ -56,7 +56,11 @@ public class Recipe implements Serializable {
     private Season season;
 
     @OneToMany(mappedBy = "recipe")
-    @JsonIgnoreProperties(value = { "ingredient", "recipe" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "mealPlan", "recipe" }, allowSetters = true)
+    private Set<RecipeServing> recipeServings = new HashSet<>();
+
+    @OneToMany(mappedBy = "recipe")
+    @JsonIgnoreProperties(value = { "recipe", "ingredient" }, allowSetters = true)
     private Set<RecipeIngredient> ingredients = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -175,6 +179,37 @@ public class Recipe implements Serializable {
 
     public void setSeason(Season season) {
         this.season = season;
+    }
+
+    public Set<RecipeServing> getRecipeServings() {
+        return this.recipeServings;
+    }
+
+    public Recipe recipeServings(Set<RecipeServing> recipeServings) {
+        this.setRecipeServings(recipeServings);
+        return this;
+    }
+
+    public Recipe addRecipeServings(RecipeServing recipeServing) {
+        this.recipeServings.add(recipeServing);
+        recipeServing.setRecipe(this);
+        return this;
+    }
+
+    public Recipe removeRecipeServings(RecipeServing recipeServing) {
+        this.recipeServings.remove(recipeServing);
+        recipeServing.setRecipe(null);
+        return this;
+    }
+
+    public void setRecipeServings(Set<RecipeServing> recipeServings) {
+        if (this.recipeServings != null) {
+            this.recipeServings.forEach(i -> i.setRecipe(null));
+        }
+        if (recipeServings != null) {
+            recipeServings.forEach(i -> i.setRecipe(this));
+        }
+        this.recipeServings = recipeServings;
     }
 
     public Set<RecipeIngredient> getIngredients() {

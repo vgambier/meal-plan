@@ -18,9 +18,9 @@ public class RecipeIngredientDTO implements Serializable {
     @NotNull
     private Boolean optional;
 
-    private IngredientDTO ingredient;
-
     private RecipeDTO recipe;
+
+    private IngredientDTO ingredient;
 
     public Long getId() {
         return id;
@@ -54,20 +54,20 @@ public class RecipeIngredientDTO implements Serializable {
         this.optional = optional;
     }
 
-    public IngredientDTO getIngredient() {
-        return ingredient;
-    }
-
-    public void setIngredient(IngredientDTO ingredient) {
-        this.ingredient = ingredient;
-    }
-
     public RecipeDTO getRecipe() {
         return recipe;
     }
 
     public void setRecipe(RecipeDTO recipe) {
         this.recipe = recipe;
+    }
+
+    public IngredientDTO getIngredient() {
+        return ingredient;
+    }
+
+    public void setIngredient(IngredientDTO ingredient) {
+        this.ingredient = ingredient;
     }
 
     @Override
@@ -99,8 +99,8 @@ public class RecipeIngredientDTO implements Serializable {
             ", quantity=" + getQuantity() +
             ", unit='" + getUnit() + "'" +
             ", optional='" + getOptional() + "'" +
-            ", ingredient=" + getIngredient() +
             ", recipe=" + getRecipe() +
+            ", ingredient=" + getIngredient() +
             "}";
     }
 }

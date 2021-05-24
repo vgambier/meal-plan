@@ -43,9 +43,7 @@ const mapStateToProps = ({ mealPlan }: IRootState) => ({
   mealPlanEntity: mealPlan.entity,
 });
 
-const mapDispatchToProps = {
-  getEntity,
-};
+const mapDispatchToProps = { getEntity };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

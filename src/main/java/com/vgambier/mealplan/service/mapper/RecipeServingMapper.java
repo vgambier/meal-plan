@@ -7,7 +7,7 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link RecipeServing} and its DTO {@link RecipeServingDTO}.
  */
-@Mapper(componentModel = "spring", uses = { RecipeMapper.class, MealPlanMapper.class })
+@Mapper(componentModel = "spring", uses = { MealPlanMapper.class, RecipeMapper.class })
 public interface RecipeServingMapper extends EntityMapper<RecipeServingDTO, RecipeServing> {
     @Mapping(target = "recipe", source = "recipe", qualifiedByName = "id")
     RecipeServingDTO toDto(RecipeServing s);

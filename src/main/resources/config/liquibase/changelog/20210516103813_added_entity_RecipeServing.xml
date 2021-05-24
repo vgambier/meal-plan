@@ -17,11 +17,11 @@
             <column name="servings_override" type="${floatType}">
                 <constraints nullable="true" />
             </column>
-            <column name="recipe_id" type="bigint">
-                <constraints nullable="false" unique="true" uniqueConstraintName="ux_recipe_serving__recipe_id" />
-            </column>
             <column name="meal_plan_id" type="bigint">
                 <constraints nullable="true" />
+            </column>
+            <column name="recipe_id" type="bigint">
+                <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>

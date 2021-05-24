@@ -23,11 +23,11 @@
             <column name="optional" type="boolean">
                 <constraints nullable="false" />
             </column>
-            <column name="ingredient_id" type="bigint">
-                <constraints nullable="false" unique="true" uniqueConstraintName="ux_recipe_ingredient__ingredient_id" />
-            </column>
             <column name="recipe_id" type="bigint">
                 <constraints nullable="true" />
+            </column>
+            <column name="ingredient_id" type="bigint">
+                <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>

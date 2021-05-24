@@ -1,6 +1,9 @@
 package com.vgambier.mealplan.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -24,6 +27,10 @@ public class Ingredient implements Serializable {
 
     @Column(name = "substitutes")
     private String substitutes;
+
+    @OneToMany(mappedBy = "ingredient")
+    @JsonIgnoreProperties(value = { "recipe", "ingredient" }, allowSetters = true)
+    private Set<RecipeIngredient> recipeIngredients = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -63,6 +70,37 @@ public class Ingredient implements Serializable {
 
     public void setSubstitutes(String substitutes) {
         this.substitutes = substitutes;
+    }
+
+    public Set<RecipeIngredient> getRecipeIngredients() {
+        return this.recipeIngredients;
+    }
+
+    public Ingredient recipeIngredients(Set<RecipeIngredient> recipeIngredients) {
+        this.setRecipeIngredients(recipeIngredients);
+        return this;
+    }
+
+    public Ingredient addRecipeIngredients(RecipeIngredient recipeIngredient) {
+        this.recipeIngredients.add(recipeIngredient);
+        recipeIngredient.setIngredient(this);
+        return this;
+    }
+
+    public Ingredient removeRecipeIngredients(RecipeIngredient recipeIngredient) {
+        this.recipeIngredients.remove(recipeIngredient);
+        recipeIngredient.setIngredient(null);
+        return this;
+    }
+
+    public void setRecipeIngredients(Set<RecipeIngredient> recipeIngredients) {
+        if (this.recipeIngredients != null) {
+            this.recipeIngredients.forEach(i -> i.setIngredient(null));
+        }
+        if (recipeIngredients != null) {
+            recipeIngredients.forEach(i -> i.setIngredient(this));
+        }
+        this.recipeIngredients = recipeIngredients;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

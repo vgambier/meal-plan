@@ -11,7 +11,14 @@
       "fieldType": "String"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "recipeIngredient",
+      "otherEntityRelationshipName": "ingredient",
+      "relationshipName": "recipeIngredients"
+    }
+  ],
   "entityTableName": "ingredient",
   "dto": "mapstruct",
   "pagination": "no",

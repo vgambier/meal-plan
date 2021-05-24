@@ -22,10 +22,9 @@ public class RecipeServing implements Serializable {
     @Column(name = "servings_override")
     private Float servingsOverride;
 
-    @JsonIgnoreProperties(value = { "ingredients" }, allowSetters = true)
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     @NotNull
-    @JoinColumn(unique = true)
+    @JsonIgnoreProperties(value = { "recipeServings", "ingredients" }, allowSetters = true)
     private Recipe recipe;
 
     @ManyToOne

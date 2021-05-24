@@ -8,18 +8,17 @@
   ],
   "relationships": [
     {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "recipe",
-      "otherEntityRelationshipName": "recipeServing",
-      "relationshipValidateRules": "required",
-      "relationshipName": "recipe",
-      "ownerSide": true
-    },
-    {
       "relationshipType": "many-to-one",
       "otherEntityName": "mealPlan",
       "otherEntityRelationshipName": "recipes",
       "relationshipName": "mealPlan"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "recipe",
+      "otherEntityRelationshipName": "recipeServings",
+      "relationshipValidateRules": "required",
+      "relationshipName": "recipe"
     }
   ],
   "entityTableName": "recipe_serving",

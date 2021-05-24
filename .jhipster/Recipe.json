@@ -40,6 +40,12 @@
   "relationships": [
     {
       "relationshipType": "one-to-many",
+      "otherEntityName": "recipeServing",
+      "otherEntityRelationshipName": "recipe",
+      "relationshipName": "recipeServings"
+    },
+    {
+      "relationshipType": "one-to-many",
       "otherEntityName": "recipeIngredient",
       "otherEntityRelationshipName": "recipe",
       "relationshipValidateRules": "required",

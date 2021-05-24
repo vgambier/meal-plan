@@ -37,16 +37,16 @@ relationship OneToMany {
 	MealPlan{recipes required} to RecipeServing
 }
 
-relationship OneToOne {
-	RecipeServing{recipe required} to Recipe
+relationship OneToMany {
+	Recipe{recipeServings} to RecipeServing{recipe required}
 }
 
 relationship OneToMany {
 	Recipe{ingredients required} to RecipeIngredient
 }
 
-relationship OneToOne {
-	RecipeIngredient{ingredient required} to Ingredient
+relationship OneToMany {
+	Ingredient{recipeIngredients} to RecipeIngredient{ingredient required}
 }
 
 // Set pagination options
