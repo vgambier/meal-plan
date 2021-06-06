@@ -59,7 +59,8 @@ public class Recipe implements Serializable {
     @JsonIgnoreProperties(value = { "mealPlan", "recipe" }, allowSetters = true)
     private Set<RecipeServing> recipeServings = new HashSet<>();
 
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "recipe_id")
     @JsonIgnoreProperties(value = { "recipe", "ingredient" }, allowSetters = true)
     private Set<RecipeIngredient> ingredients = new HashSet<>();
 
@@ -192,23 +193,15 @@ public class Recipe implements Serializable {
 
     public Recipe addRecipeServings(RecipeServing recipeServing) {
         this.recipeServings.add(recipeServing);
-        recipeServing.setRecipe(this);
         return this;
     }
 
     public Recipe removeRecipeServings(RecipeServing recipeServing) {
         this.recipeServings.remove(recipeServing);
-        recipeServing.setRecipe(null);
         return this;
     }
 
     public void setRecipeServings(Set<RecipeServing> recipeServings) {
-        if (this.recipeServings != null) {
-            this.recipeServings.forEach(i -> i.setRecipe(null));
-        }
-        if (recipeServings != null) {
-            recipeServings.forEach(i -> i.setRecipe(this));
-        }
         this.recipeServings = recipeServings;
     }
 

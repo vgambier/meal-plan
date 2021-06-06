@@ -2,7 +2,9 @@ package com.vgambier.mealplan.service.dto;
 
 import com.vgambier.mealplan.domain.enumeration.Season;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Lob;
 import javax.validation.constraints.*;
 
@@ -32,6 +34,8 @@ public class RecipeDTO implements Serializable {
     private String source;
 
     private Season season;
+
+    private Set<RecipeIngredientDTO> ingredients = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -105,6 +109,14 @@ public class RecipeDTO implements Serializable {
         this.season = season;
     }
 
+    public Set<RecipeIngredientDTO> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Set<RecipeIngredientDTO> ingredients) {
+        this.ingredients = ingredients;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -138,6 +150,7 @@ public class RecipeDTO implements Serializable {
             ", picture='" + getPicture() + "'" +
             ", source='" + getSource() + "'" +
             ", season='" + getSeason() + "'" +
+            ", ingredients='" + getIngredients() + "'" +
             "}";
     }
 }

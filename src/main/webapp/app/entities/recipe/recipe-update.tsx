@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Row, Col, Label } from 'reactstrap';
-import { AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
+import { Button, Row, Col, Label, Container } from 'reactstrap';
+import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
 import { setFileData, openFile, byteSize } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
 import { getEntity, updateEntity, createEntity, setBlob, reset } from './recipe.reducer';
+import { getEntities as getIngredients } from 'app/entities/ingredient/ingredient.reducer';
 
 export interface IRecipeUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const RecipeUpdate = (props: IRecipeUpdateProps) => {
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { recipeEntity, loading, updating } = props;
+  const [recipeIngredients, setRecipeIngredients] = useState([]);
+
+  const { recipeEntity, ingredients, loading, updating } = props;
 
   const { instructions, additionalNotes, picture, pictureContentType } = recipeEntity;
 
@@ -26,6 +29,7 @@ export const RecipeUpdate = (props: IRecipeUpdateProps) => {
     if (!isNew) {
       props.getEntity(props.match.params.id);
     }
+    props.getIngredients();
   }, []);
 
   const onBlobChange = (isAnImage, name) => event => {
@@ -42,11 +46,21 @@ export const RecipeUpdate = (props: IRecipeUpdateProps) => {
     }
   }, [props.updateSuccess]);
 
-  const saveEntity = (event, errors, values) => {
+  const saveEntity = (_event, errors, values) => {
     if (errors.length === 0) {
+      const recipeIngredientEntities = recipeIngredients.map(formIngredient => {
+        return {
+          ingredient: ingredients.find(it => it.id.toString() === formIngredient.ingredientId.toString()),
+          quantity: formIngredient.quantity,
+          unit: formIngredient.unit,
+          optional: formIngredient.optional,
+        };
+      });
+
       const entity = {
         ...recipeEntity,
         ...values,
+        ingredients: recipeIngredientEntities,
       };
 
       if (isNew) {
@@ -55,6 +69,55 @@ export const RecipeUpdate = (props: IRecipeUpdateProps) => {
         props.updateEntity(entity);
       }
     }
+  };
+
+  const handleIngredientIdChange = idx => evt => {
+    const newRecipeIngredients = recipeIngredients.map((ingredient, sidx) => {
+      if (idx !== sidx) return ingredient;
+      return {
+        ...ingredient,
+        ingredientId: evt.target.value,
+      };
+    });
+
+    setRecipeIngredients(newRecipeIngredients);
+  };
+
+  // TODO all 3 functions below could be unified
+
+  const handleIngredientQuantityChange = idx => evt => {
+    const newRecipeIngredients = recipeIngredients.map((ingredient, sidx) => {
+      if (idx !== sidx) return ingredient;
+      return { ...ingredient, quantity: evt.target.value };
+    });
+
+    setRecipeIngredients(newRecipeIngredients);
+  };
+
+  const handleIngredientUnitChange = idx => evt => {
+    const newRecipeIngredients = recipeIngredients.map((ingredient, sidx) => {
+      if (idx !== sidx) return ingredient;
+      return { ...ingredient, unit: evt.target.value };
+    });
+
+    setRecipeIngredients(newRecipeIngredients);
+  };
+
+  const handleIngredientOptionalChange = idx => evt => {
+    const newRecipeIngredients = recipeIngredients.map((ingredient, sidx) => {
+      if (idx !== sidx) return ingredient;
+      return { ...ingredient, optional: evt.target.value };
+    });
+
+    setRecipeIngredients(newRecipeIngredients);
+  };
+
+  const handleAddIngredient = () => {
+    setRecipeIngredients(recipeIngredients.concat([{ ingredientId: '', quantity: '', unit: '', optional: 'false' }]));
+  };
+
+  const handleRemoveIngredient = idx => () => {
+    setRecipeIngredients(recipeIngredients.filter((_s, sidx) => idx !== sidx));
   };
 
   return (
@@ -108,6 +171,94 @@ export const RecipeUpdate = (props: IRecipeUpdateProps) => {
                   }}
                 />
               </AvGroup>
+              <Label for="recipe-ingredients">Ingredients</Label>
+              <br />
+              {recipeIngredients.map((_recipeIngredient, idx) => (
+                <div key={idx} className="recipeIngredient">
+                  <Container>
+                    <Row>
+                      <AvGroup>
+                        <AvInput
+                          form="fakeform"
+                          id="recipe-ingredient-ingredient"
+                          data-cy="ingredient"
+                          type="select"
+                          className="form-control"
+                          name={'ingredientId' + (idx + 1)}
+                          required // TODO make it not required but make sure it is ignored if empty
+                          onChange={handleIngredientIdChange(idx)}
+                        >
+                          <option value="" key="0" />
+                          {ingredients // TODO this should not be a dropdown but a free input field with dynamic suggestions
+                            ? ingredients.map(otherEntity => (
+                                <option value={otherEntity.id} key={otherEntity.id}>
+                                  {otherEntity.name}
+                                </option> // TODO hide ingredients already present in other forms
+                              ))
+                            : null}
+                        </AvInput>
+                        <AvFeedback>This field is required.</AvFeedback>
+                      </AvGroup>
+                      <Col sm="2">
+                        <AvGroup>
+                          <AvField
+                            id="recipe-ingredient-quantity"
+                            data-cy="quantity"
+                            type="number"
+                            placeholder="Quantity"
+                            className="form-control"
+                            // TODO also unit and optional way below or sthg
+                            name={'quantity' + (idx + 1)}
+                            onChange={handleIngredientQuantityChange(idx)}
+                          />
+                        </AvGroup>
+                      </Col>
+                      <Col sm="2">
+                        <AvGroup>
+                          <AvField
+                            id="recipe-ingredient-unit"
+                            data-cy="unit"
+                            type="string"
+                            placeholder="Unit"
+                            className="form-control"
+                            name={'unit' + (idx + 1)}
+                            onChange={handleIngredientUnitChange(idx)}
+                          />
+                        </AvGroup>
+                      </Col>
+                      <Col sm="2">
+                        <AvGroup>
+                          <AvField
+                            id="recipe-ingredient-optional"
+                            data-cy="optional"
+                            type="boolean"
+                            placeholder="Optional"
+                            className="form-control"
+                            name={'optional' + (idx + 1)}
+                            onChange={
+                              handleIngredientOptionalChange(idx) // TODO this field should be a checkbox
+                            }
+                          />
+                        </AvGroup>
+                      </Col>
+                      <Col sm="1">
+                        <Button
+                          type="button"
+                          onClick={
+                            handleRemoveIngredient(idx) // TODO this always deletes the last one
+                          }
+                        >
+                          -
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Container>
+                </div>
+              ))}
+              <Button type="button" onClick={handleAddIngredient} className="small">
+                Add ingredient
+              </Button>
+              <br /> <br />
               <AvGroup>
                 <Label id="instructionsLabel" for="recipe-instructions">
                   Instructions
@@ -203,6 +354,7 @@ export const RecipeUpdate = (props: IRecipeUpdateProps) => {
 
 const mapStateToProps = (storeState: IRootState) => ({
   recipeEntity: storeState.recipe.entity,
+  ingredients: storeState.ingredient.entities,
   loading: storeState.recipe.loading,
   updating: storeState.recipe.updating,
   updateSuccess: storeState.recipe.updateSuccess,
@@ -210,6 +362,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 
 const mapDispatchToProps = {
   getEntity,
+  getIngredients,
   updateEntity,
   setBlob,
   createEntity,

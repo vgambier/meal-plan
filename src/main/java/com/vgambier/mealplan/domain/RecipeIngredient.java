@@ -30,6 +30,7 @@ public class RecipeIngredient implements Serializable {
     private Boolean optional;
 
     @ManyToOne
+    @JoinColumn(name = "recipe_id")
     @JsonIgnoreProperties(value = { "recipeServings", "ingredients" }, allowSetters = true)
     private Recipe recipe;
 

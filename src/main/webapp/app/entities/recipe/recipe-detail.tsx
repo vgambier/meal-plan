@@ -2,12 +2,11 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
-import { openFile, byteSize } from 'react-jhipster';
+import { openFile } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
 import { getEntity } from './recipe.reducer';
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 
 export interface IRecipeDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -17,6 +16,7 @@ export const RecipeDetail = (props: IRecipeDetailProps) => {
   }, []);
 
   const { recipeEntity } = props;
+
   return (
     <Row>
       {recipeEntity.picture ? (
@@ -41,11 +41,13 @@ export const RecipeDetail = (props: IRecipeDetailProps) => {
           <dt>
             <span id="ingredients">Ingredients</span>
           </dt>
-          <dd>
-            {!recipeEntity.ingredients
-              ? 'None'
-              : recipeEntity.ingredients.map(item => item.ingredient.name + '(' + item.quantity + item.unit + ')')}
-          </dd>
+          {!recipeEntity.ingredients ? (
+            <dd>None</dd>
+          ) : (
+            recipeEntity.ingredients.map(item => (
+              <dd key={item.ingredient.id}>{`${item.ingredient.name} (${item.quantity} ${item.unit})`}</dd>
+            ))
+          )}
 
           <dt>
             <span id="instructions">Instructions</span>
